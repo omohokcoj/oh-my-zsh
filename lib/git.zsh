@@ -73,6 +73,19 @@ function git_current_branch() {
   echo ${ref#refs/heads/}
 }
 
+# Outputs the short name of the current branch
+function git_current_branch_short() {
+  local branch
+  branch=$(git branch 2> /dev/null | grep '\*' | cut -c 3- | sed 's/[()]//g')
+  if [[ "$branch" ]]; then
+    if [[ "$branch" == "HEAD"* ]]; then
+      branch=$(echo $branch | tail -c 8)
+    else
+      branch=$(echo $branch | cut -f 1,2 -d '-')
+    fi
+    echo " ($branch)"
+  fi
+}
 
 # Gets the number of commits ahead from remote
 function git_commits_ahead() {
