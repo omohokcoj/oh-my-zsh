@@ -20,15 +20,11 @@ _tasks_changed () {
 }
 
 _rake_generate () {
-  rake --silent --tasks | cut -d " " -f 2 > .rake_tasks
+  rake --silent --tasks --all | cut -d " " -f 2 > .rake_tasks
 }
 
 _rake () {
   if [[ -f Rakefile ]]; then
-    if _rake_does_task_list_need_generating; then
-      echo "\nGenerating .rake_tasks..." >&2
-      _rake_generate
-    fi
     compadd $(cat .rake_tasks)
   fi
 }
